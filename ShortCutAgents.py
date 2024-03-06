@@ -61,7 +61,7 @@ class SARSAAgent(object):
         return a    
         
     def update(self, state, action, reward, alpha, gamma):
-        temp_value = reward + gamma * Q_value[state, action] - Q_value[state, action]
+        temp_value = reward + gamma * self.Q_value[state, action] - self.Q_value[state, action]
         self.Q_value[state, action] = self.Q_value[state, action] + alpha * temp_value
         pass
 
