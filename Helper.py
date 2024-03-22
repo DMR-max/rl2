@@ -18,7 +18,7 @@ class LearningCurvePlot:
         self.fig,self.ax = plt.subplots()
         self.ax.set_xlabel('Time')
         self.ax.set_ylabel('Reward')      
-        self.ax.set_ylim([0,1.0])
+        self.ax.set_ylim([-100,1.0])
         if title is not None:
             self.ax.set_title(title)
         
