@@ -73,7 +73,7 @@ def run_repetitions(n_reps, n_episodes, agent_type):
         plot.save("Q-Learning")
     elif agent_type == "sarsa":
         plot.save("SARSA")
-    elif agent_type == "Expected SARSA":
+    elif agent_type == "expectedsarsa":
         plot.save("Expected SARSA")
     return rewards
 

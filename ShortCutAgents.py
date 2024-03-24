@@ -95,12 +95,26 @@ class ExpectedSARSAAgent(object):
         return a  
         
     def update(self, state, action, reward, next_state, alpha, gamma):
-        exp_next_value = np.sum(self.Q_value[next_state] * (1 - self.epsilon)) + (self.epsilon / self.n_actions) * np.sum(self.Q_value[next_state])
+        # exp_next_value = np.sum(self.Q_value[next_state] * (1 - self.epsilon)) + (self.epsilon / self.n_actions) * np.sum(self.Q_value[next_state])
         # exp_next_value = 0
         # for a in range(self.n_actions):
         #     if a == np.argmax(self.Q_value[state,:]):
         #         exp_next_value += self.Q_value[state, a] * self.epsilon
         #     exp_next_value += self.Q_value[state, a] / self.n_actions
+
+        # Calculate the probability of each action under the current policy
+        action_probabilities = np.ones(self.n_actions, dtype=float) * self.epsilon / self.n_actions
+        best_action = np.argmax(self.Q_value[next_state])
+        action_probabilities[best_action] += (1.0 - self.epsilon)
+        
+        # Calculate the expected Q-value for the next state
+        exp_next_value = np.sum(self.Q_value[next_state] * action_probabilities)
+        
+        # Calculate the TD error
+        td_error = reward + gamma * exp_next_value - self.Q_value[state, action]
+        
+        # Update the Q-value for the current state-action pair
+        self.Q_value[state, action] += alpha * td_error
         td_error = reward + gamma * exp_next_value - self.Q_value[state, action]
         self.Q_value[state, action] += alpha * td_error
 
