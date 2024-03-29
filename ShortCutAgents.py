@@ -5,9 +5,11 @@ from ShortCutEnvironment import ShortcutEnvironment as env
 class QLearningAgent(object):
 
     def __init__(self, n_actions, n_states, epsilon):
+        # Initialize the agent with the number of actions, states and epsilon
         self.n_actions = n_actions
         self.n_states = n_states
         self.epsilon = epsilon
+        # Initialize Q-value table
         self.Q_value_tab = np.zeros((n_states, n_actions))
         
     def select_action(self, state):
@@ -31,15 +33,19 @@ class QLearningAgent(object):
         
     def update(self, new_state, state, action, reward, alpha=0.1):
         gamma = 1.0
+        # For the new state, find the maximum Q-value
         multiply = gamma * np.max(self.Q_value_tab[new_state])
+        # Update the Q-value in the Q_value table with the previous Q-value and the TD error
         self.Q_value_tab[state, action] += alpha * (reward + multiply - self.Q_value_tab[state, action])
 
 class SARSAAgent(object):
 
     def __init__(self, n_actions, n_states, epsilon):
+        # Initialize the agent with the number of actions, states and epsilon
         self.n_actions = n_actions
         self.n_states = n_states
         self.epsilon = epsilon
+        # Initialize Q-value table
         self.Q_value = np.zeros((n_states, n_actions))
         
     def select_action(self, state):
@@ -62,17 +68,21 @@ class SARSAAgent(object):
         return a    
         
     def update(self, state, action, reward, next_state, next_action, alpha, gamma=1.0):
+        # Calculate the TD error
         next_Q_value = self.Q_value[next_state, next_action]
         td_error = reward + gamma * next_Q_value - self.Q_value[state, action]
+        # Update the Q-value in the Q_value table with the previous Q-value and the TD error
         self.Q_value[state, action] = self.Q_value[state, action] + alpha * td_error
 
 
 class ExpectedSARSAAgent(object):
 
     def __init__(self, n_actions, n_states, epsilon):
+        # Initialize the agent with the number of actions, states and epsilon
         self.n_actions = n_actions
         self.n_states = n_states
         self.epsilon = epsilon
+        # Initialize the Q-value table
         self.Q_value = np.zeros((n_states, n_actions))
         
     def select_action(self, state):
@@ -95,13 +105,6 @@ class ExpectedSARSAAgent(object):
         return a  
         
     def update(self, state, action, reward, next_state_in_env, alpha, gamma):
-        # exp_next_value = np.sum(self.Q_value[next_state] * (1 - self.epsilon)) + (self.epsilon / self.n_actions) * np.sum(self.Q_value[next_state])
-        # exp_next_value = 0
-        # for a in range(self.n_actions):
-        #     if a == np.argmax(self.Q_value[state,:]):
-        #         exp_next_value += self.Q_value[state, a] * self.epsilon
-        #     exp_next_value += self.Q_value[state, a] / self.n_actions
-
         # Calculate probability of selecting a non-optimal action
         non_optimal = self.epsilon / self.n_actions
         # Setting all actions to non-optimal probability
