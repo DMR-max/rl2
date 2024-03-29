@@ -2,7 +2,7 @@
 import numpy as np
 from ShortCutAgents import QLearningAgent, SARSAAgent, ExpectedSARSAAgent
 from ShortCutEnvironment import ShortcutEnvironment, WindyShortcutEnvironment
-from Helper import LearningCurvePlot, ComparisonPlot, smooth
+from Helper import LearningCurvePlot, smooth
 
 def run_repetitions(n_reps, n_episodes, agent_type):
     # Plot class for Q-Learning
