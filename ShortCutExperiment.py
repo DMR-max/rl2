@@ -148,17 +148,19 @@ def main():
     agent_type = "qlearning"
     rewards = run_repetitions(n_reps_plot, n_steps_plot, agent_type)
 
-    agent_type = "qlearning"
     rewards = run_repetitions(n_reps, n_steps, agent_type)
-    agent_type = "sarsa"
-    rewards = run_repetitions(n_reps, n_steps, agent_type)
-    agent_type = "qlearning"
 
+    agent_type = "sarsa"
+    rewards = run_repetitions(n_reps_plot, n_steps_plot, agent_type)
+    rewards = run_repetitions(n_reps, n_steps, agent_type)
+
+    agent_type = "qlearning"
     Windyenvironment(n_steps_windy, agent_type, alpha_windy, epsilon_windy)
     agent_type = "sarsa"
     Windyenvironment(n_steps_windy, agent_type, alpha_windy, epsilon_windy)
+
     agent_type = "expectedsarsa"
-
+    rewards = run_repetitions(n_reps_plot, n_steps_plot, agent_type)
     rewards = run_repetitions(n_reps, n_steps, agent_type)
 
 if __name__ == '__main__':
